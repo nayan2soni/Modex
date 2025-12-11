@@ -19,10 +19,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
 
 // Routes
 app.use('/api/admin', adminRoutes);
 app.use('/api', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // Health Check
 app.get('/health', (req: Request, res: Response) => {

@@ -6,8 +6,14 @@ import Booking from '../models/Booking';
 
 export const listShows = async (req: Request, res: Response) => {
     try {
-        const shows = await Show.find().sort({ startTime: 1 });
-        res.status(200).json(shows);
+        const shows = await Show.find().sort({ startTime: 1 }).lean();
+
+        const showsWithAvailability = await Promise.all(shows.map(async (show) => {
+            const availableCount = await Seat.countDocuments({ showId: show._id, status: 'AVAILABLE' });
+            return { ...show, availableSeats: availableCount };
+        }));
+
+        res.status(200).json(showsWithAvailability);
     } catch (error) {
         console.error('List Shows Error:', error);
         res.status(500).json({ message: 'Server error fetching shows' });

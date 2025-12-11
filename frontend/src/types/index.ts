@@ -6,6 +6,7 @@ export interface Show {
     venueHall: string;
     totalSeats: number;
     price: number;
+    availableSeats?: number;
 }
 
 export interface Seat {
