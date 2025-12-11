@@ -14,9 +14,13 @@ export const listShows = async (req: Request, res: Response) => {
         }));
 
         res.status(200).json(showsWithAvailability);
-    } catch (error) {
+    } catch (error: any) {
         console.error('List Shows Error:', error);
-        res.status(500).json({ message: 'Server error fetching shows' });
+        res.status(500).json({
+            message: 'Server error fetching shows',
+            error: error.message,
+            stack: error.stack
+        });
     }
 };
 
